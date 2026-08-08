@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N2 Content AI</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #0b1020;
+  color: white;
+}
+
+.box {
+  max-width: 700px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+textarea, select, button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+textarea, select {
+  background: #151d34;
+  color: white;
+  border: 1px solid #394363;
+}
+
+button {
+  background: #7c5cff;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.result {
+  margin-top: 25px;
+  padding: 20px;
+  background: #151d34;
+  border-radius: 12px;
+  line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>N2 Content AI 🤖</h1>
+
+<p>अपना topic लिखें और content तैयार करें।</p>
+
+<textarea id="prompt" placeholder="जैसे: Instagram motivational caption"></textarea>
+
+<select id="language">
+<option value="Hindi">Hindi</option>
+<option value="English">English</option>
+</select>
+
+<select id="type">
+<option value="Article">Article</option>
+<option value="Caption">Social Media Caption</option>
+<option value="Blog">Blog</option>
+<option value="Script">YouTube Script</option>
+</select>
+
+<button id="generateBtn">✨ Generate Content</button>
+
+<div class="result">
+<h3>आपका Content</h3>
+<div id="output">यहाँ आपका content दिखाई देगा...</div>
+
+<button id="copyBtn">📋 Copy Content</button>
+</div>
+
+</div>
+
+<script>
+
+document.getElementById("generateBtn").onclick = function() {
+
+  let prompt = document.getElementById("prompt").value;
+  let language = document.getElementById("language").value;
+  let type = document.getElementById("type").value;
+  let output = document.getElementById("output");
+
+  if (prompt.trim() === "") {
+    output.innerText = "⚠️ पहले अपना topic लिखें।";
+    return;
+  }
+
+  output.innerText = "🤖 Content तैयार हो रहा है...";
+
+  setTimeout(function() {
+
+    if (language === "Hindi") {
+      output.innerText =
+      "✨ N2 Content AI\n\n" +
+      "Topic: " + prompt + "\n" +
+      "Type: " + type + "\n\n" +
+      "यह आपके topic के लिए तैयार किया गया Hindi content है।\n\n" +
+      "💡 लगातार मेहनत करते रहें और अपने लक्ष्य पर ध्यान दें।";
+    } else {
+      output.innerText =
+      "✨ N2 Content AI\n\n" +
+      "Topic: " + prompt + "\n" +
+      "Type: " + type + "\n\n" +
+      "This is your generated English content.\n\n" +
+      "💡 Keep working hard and stay focused on your goal.";
+    }
+
+  }, 1000);
+};
+
+
+document.getElementById("copyBtn").onclick = function() {
+
+  let text = document.getElementById("output").innerText;
+
+  navigator.clipboard.writeText(text);
+
+  this.innerText = "✅ Copied!";
+
+  setTimeout(() => {
+    this.innerText = "📋 Copy Content";
+  }, 1500);
+
+};
+
+</script>
+
+</body>
+</html>
