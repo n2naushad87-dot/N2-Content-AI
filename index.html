@@ -1,145 +1,355 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>N2 Content AI</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background: #0b1020;
-  color: white;
-}
+  <title>N2 Content AI</title>
 
-.box {
-  max-width: 700px;
-  margin: auto;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-h1 {
-  text-align: center;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, #26305f 0%, #0b1020 45%, #060914 100%);
+      color: #fff;
+      padding: 15px;
+    }
 
-textarea, select, button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 12px;
-  box-sizing: border-box;
-  border-radius: 10px;
-}
+    .container {
+      width: 100%;
+      max-width: 720px;
+      margin: auto;
+    }
 
-textarea, select {
-  background: #151d34;
-  color: white;
-  border: 1px solid #394363;
-}
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 20px 10px 25px;
+    }
 
-button {
-  background: #7c5cff;
-  color: white;
-  border: none;
-  font-weight: bold;
-}
+    .logo {
+      font-size: 45px;
+      margin-bottom: 8px;
+    }
 
-.result {
-  margin-top: 25px;
-  padding: 20px;
-  background: #151d34;
-  border-radius: 12px;
-  line-height: 1.6;
-}
-</style>
+    .header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .header p {
+      margin: 10px 0 0;
+      color: #aeb7d4;
+      font-size: 14px;
+    }
+
+    /* Main Card */
+    .card {
+      background: rgba(21, 29, 52, 0.95);
+      border: 1px solid #303b60;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+    }
+
+    .label {
+      display: block;
+      margin: 5px 0 9px;
+      font-weight: bold;
+      color: #dce2ff;
+      font-size: 16px;
+    }
+
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #3b4770;
+      background: #0f162b;
+      color: #fff;
+      padding: 15px;
+      border-radius: 13px;
+      outline: none;
+      font-size: 15px;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 135px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    textarea::placeholder {
+      color: #737e9f;
+    }
+
+    textarea:focus,
+    select:focus {
+      border-color: #7c5cff;
+      box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.15);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    /* Generate Button */
+    #generateBtn {
+      width: 100%;
+      margin-top: 18px;
+      padding: 17px;
+      border: none;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #7c5cff, #a855f7);
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(124, 92, 255, 0.3);
+      transition: 0.2s;
+    }
+
+    #generateBtn:hover {
+      transform: translateY(-1px);
+    }
+
+    #generateBtn:active {
+      transform: scale(0.98);
+    }
+
+    /* Result */
+    .result {
+      margin-top: 22px;
+      background: #0d1428;
+      border: 1px solid #303b60;
+      border-radius: 17px;
+      padding: 17px;
+    }
+
+    .result-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+
+    .result-title span {
+      font-size: 23px;
+    }
+
+    .result-title h3 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    #output {
+      min-height: 120px;
+      white-space: pre-wrap;
+      line-height: 1.75;
+      color: #e9edff;
+      background: #111a32;
+      padding: 16px;
+      border-radius: 13px;
+      overflow-wrap: break-word;
+      font-size: 15px;
+    }
+
+    /* Copy Button */
+    #copyBtn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px solid #414d77;
+      border-radius: 12px;
+      background: #19223d;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    #copyBtn:active {
+      transform: scale(0.98);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      color: #7883a5;
+      font-size: 13px;
+      margin: 22px 0 8px;
+    }
+
+    /* Mobile */
+    @media (max-width: 550px) {
+
+      body {
+        padding: 10px;
+      }
+
+      .header {
+        padding: 15px 8px 20px;
+      }
+
+      .header h1 {
+        font-size: 27px;
+      }
+
+      .logo {
+        font-size: 38px;
+      }
+
+      .card {
+        padding: 15px;
+        border-radius: 18px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      textarea {
+        min-height: 125px;
+      }
+
+      #generateBtn {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="box">
+  <div class="container">
 
-<h1>N2 Content AI 🤖</h1>
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">🤖</div>
 
-<p>अपना topic लिखें और content तैयार करें।</p>
+      <h1>N2 Content AI</h1>
 
-<textarea id="prompt" placeholder="जैसे: Instagram motivational caption"></textarea>
-
-<select id="language">
-<option value="Hindi">Hindi</option>
-<option value="English">English</option>
-</select>
-
-<select id="type">
-<option value="Article">Article</option>
-<option value="Caption">Social Media Caption</option>
-<option value="Blog">Blog</option>
-<option value="Script">YouTube Script</option>
-</select>
-
-<button id="generateBtn">✨ Generate Content</button>
-
-<div class="result">
-<h3>आपका Content</h3>
-<div id="output">यहाँ आपका content दिखाई देगा...</div>
-
-<button id="copyBtn">📋 Copy Content</button>
-</div>
-
-</div>
-
-<script>
-
-document.getElementById("generateBtn").onclick = function() {
-
-  let prompt = document.getElementById("prompt").value;
-  let language = document.getElementById("language").value;
-  let type = document.getElementById("type").value;
-  let output = document.getElementById("output");
-
-  if (prompt.trim() === "") {
-    output.innerText = "⚠️ पहले अपना topic लिखें।";
-    return;
-  }
-
-  output.innerText = "🤖 Content तैयार हो रहा है...";
-
-  setTimeout(function() {
-
-    if (language === "Hindi") {
-      output.innerText =
-      "✨ N2 Content AI\n\n" +
-      "Topic: " + prompt + "\n" +
-      "Type: " + type + "\n\n" +
-      "यह आपके topic के लिए तैयार किया गया Hindi content है।\n\n" +
-      "💡 लगातार मेहनत करते रहें और अपने लक्ष्य पर ध्यान दें।";
-    } else {
-      output.innerText =
-      "✨ N2 Content AI\n\n" +
-      "Topic: " + prompt + "\n" +
-      "Type: " + type + "\n\n" +
-      "This is your generated English content.\n\n" +
-      "💡 Keep working hard and stay focused on your goal.";
-    }
-
-  }, 1000);
-};
+      <p>
+        AI की मदद से अपने लिए शानदार content तैयार करें
+      </p>
+    </div>
 
 
-document.getElementById("copyBtn").onclick = function() {
+    <!-- Main Card -->
+    <div class="card">
 
-  let text = document.getElementById("output").innerText;
+      <!-- Topic -->
+      <label class="label">
+        📝 अपना Topic लिखें
+      </label>
 
-  navigator.clipboard.writeText(text);
+      <textarea
+        id="prompt"
+        placeholder="जैसे: Instagram motivational caption"
+      ></textarea>
 
-  this.innerText = "✅ Copied!";
 
-  setTimeout(() => {
-    this.innerText = "📋 Copy Content";
-  }, 1500);
+      <!-- Options -->
+      <div class="row">
 
-};
+        <!-- Language -->
+        <div>
 
-</script>
+          <label class="label">
+            🌐 Language
+          </label>
+
+          <select id="language">
+            <option value="Hindi">Hindi</option>
+            <option value="English">English</option>
+          </select>
+
+        </div>
+
+
+        <!-- Content Type -->
+        <div>
+
+          <label class="label">
+            📄 Content Type
+          </label>
+
+          <select id="type">
+
+            <option value="Article">
+              Article
+            </option>
+
+            <option value="Caption">
+              Social Media Caption
+            </option>
+
+            <option value="Blog">
+              Blog
+            </option>
+
+            <option value="Script">
+              YouTube Script
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <!-- Generate -->
+      <button id="generateBtn">
+        ✨ Generate Content
+      </button>
+
+
+      <!-- Result -->
+      <div class="result">
+
+        <div class="result-title">
+          <span>✨</span>
+          <h3>आपका AI Content</h3>
+        </div>
+
+
+        <div id="output">
+          यहाँ आपका generated content दिखाई देगा...
+        </div>
+
+
+        <!-- Copy -->
+        <button id="copyBtn">
+          📋 Copy Content
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Footer -->
+    <div class="footer">
+      © 2026 N2 Content AI • Powered by AI
+    </div>
+
+  </div>
+
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
 
 </body>
 </html>
